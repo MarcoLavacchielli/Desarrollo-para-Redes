@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class Node : MonoBehaviour
 {
+    public string ownID;
+    [SerializeField] string _destinyID; //0.0 , 0.1, 1.0, 1.1 => 1 numero numero de router, 2 numero el orden de lista de nodo
 
-    int _iD;
-    [SerializeField] int _destinyID;
-
-    Router _myRouter;
+    public Router myRouter;
 
     [SerializeField] KeyCode _keyToSend;
 
@@ -23,11 +22,9 @@ public class Node : MonoBehaviour
         {
             if (item == this) continue;
 
-            item.nodes.Add(this);
+            item.Register(this);
 
-            _iD = item.nodes.Count - 1;
-
-            _myRouter = item;
+            myRouter = item;
 
             break;
         }
@@ -36,11 +33,17 @@ public class Node : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(_keyToSend)) _myRouter.SendTo(_destinyID, new ChangeColorPackage());
+        if (Input.GetKeyDown(_keyToSend)) myRouter.SendTo(_destinyID, new ChangeColorPackage());
     }
 
-    public void Receiver(NodePackage package)
+    public virtual void Receiver(string ID, NodePackage package)
     {
         package.Execute(this);
+    }
+
+    public virtual void Rename(string ID, int index)
+    {
+        ownID = ID + "." + index;
+        name = ID.ToString();
     }
 }
