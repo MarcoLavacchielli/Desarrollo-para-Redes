@@ -172,7 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ownID: 
   _destinyID: 
-  myRouter: {fileID: 2094549195}
+  myRouter: {fileID: 0}
   _keyToSend: 283
 --- !u!135 &108488168
 SphereCollider:
@@ -294,7 +294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ownID: 
   _destinyID: 
-  myRouter: {fileID: 1774585837}
+  myRouter: {fileID: 0}
   _keyToSend: 284
 --- !u!135 &394904893
 SphereCollider:
@@ -510,7 +510,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ownID: 
   _destinyID: 
-  myRouter: {fileID: 1774585837}
+  myRouter: {fileID: 0}
   _keyToSend: 285
 --- !u!135 &829250781
 SphereCollider:
@@ -726,7 +726,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ownID: 
   _destinyID: 
-  myRouter: {fileID: 2064327318}
+  myRouter: {fileID: 0}
   _keyToSend: 0
   nodes: []
 --- !u!65 &1774585838
@@ -849,7 +849,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ownID: 
   _destinyID: 
-  myRouter: {fileID: 2094549195}
+  myRouter: {fileID: 0}
   _keyToSend: 282
 --- !u!135 &2017718174
 SphereCollider:
@@ -1083,7 +1083,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ownID: 
   _destinyID: 
-  myRouter: {fileID: 2064327318}
+  myRouter: {fileID: 0}
   _keyToSend: 0
   nodes: []
 --- !u!65 &2094549196
