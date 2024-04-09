@@ -15,5 +15,9 @@ public class Player : Entity
     {
         /*Setear la posicion del transform con el vector3 que devuelve la funcion de pedir movimiento del servidor
          (primer parametro que pide es la posicion actual, el segundo es la posicion a la que se movera)*/
+
+        var newPos = transform.position + dir * (speed * Time.deltaTime);
+        transform.position = server.RequestMovement(transform.position, newPos);
+
     }
 }

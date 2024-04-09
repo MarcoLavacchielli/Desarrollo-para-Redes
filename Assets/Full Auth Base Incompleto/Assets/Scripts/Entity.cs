@@ -9,12 +9,15 @@ public abstract class Entity : MonoBehaviour
 {
     protected ServerFullAuth server;
     protected float speed;
+    internal Vector3 position;
 
     /*Crear un Action publico, se utilizara para updatear todo lo que se agregue a este*/
+    public event Action onUpdate = delegate { };
 
     protected virtual void Awake()
     {
         /*Buscar el ServerFullAuth y guardarlo en la variable server*/
+        server = FindAnyObjectByType<ServerFullAuth>();
 
 
         OnConnectedServer();
@@ -23,6 +26,7 @@ public abstract class Entity : MonoBehaviour
     public virtual void ExecuteUpdate()
     {
         /*Ejecutar el Action*/
+        onUpdate();
     }
 
     public void OnConnectedServer()
@@ -30,6 +34,7 @@ public abstract class Entity : MonoBehaviour
         ChangeColor(Color.green);
 
         /*Agregarse al server*/
+        server.AddPlayer(this);
     }
 
     public void OnDisconnectedServer()
@@ -37,6 +42,8 @@ public abstract class Entity : MonoBehaviour
         ChangeColor(Color.red);
 
         /*Removerse del server*/
+
+        server.RemovePlayer(this);
 
 
         StartCoroutine(DestroyPlayer());
