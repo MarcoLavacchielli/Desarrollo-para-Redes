@@ -1,12 +1,14 @@
+using Fusion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerModel : MonoBehaviour
+public class PlayerModel : NetworkBehaviour
 {
-    [SerializeField] private Rigidbody _rgbd;
-    [SerializeField] private Animator _animator;
+    [SerializeField] private NetworkRigidbody _networkRgbd;
+   // [SerializeField] private NetworkTransform _networkTransform;
+    [SerializeField] private NetworkMecanimAnimator _networkAnimator;
     
     [SerializeField] private Bullet _bulletPrefab;
     [SerializeField] private ParticleSystem _shootParticle;
@@ -16,41 +18,39 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
 
-    private float _xAxi;
-
     private int _currentSign, _previousSign;
+
+    [Networked(OnChanged = nameof(OnFiringChanged))]
+    bool _isFiring { get; set; }
+
+    private float _lastFiringTime;
+
+    private NetworkInputData _inputs;    
+
     
     void Start()
     {
         transform.forward = Vector3.right;
     }
 
-    void Update()
+    public override void FixedUpdateNetwork()
     {
-        _xAxi = Input.GetAxis("Horizontal");
+        if(GetInput(out _inputs))
+        {
+            if (_inputs.isFirePressed) Shoot();
+            if (_inputs.isJumpPressed) Jump();
 
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            Jump();
-        }
-        else if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Shoot();
+            Move(_inputs.xMovement);
         }
     }
 
-    private void FixedUpdate()
+    void Move(float xAxi)
     {
-        Move();
-    }
-
-    void Move()
-    {
-        if (_xAxi != 0)
+        if (xAxi != 0)
         {
-            _rgbd.MovePosition(transform.position + Vector3.right * (_xAxi * _speed * Time.fixedDeltaTime));
+            _networkRgbd.Rigidbody.MovePosition(transform.position + Vector3.right * (xAxi * _speed * Time.fixedDeltaTime));
 
-            _currentSign = (int)Mathf.Sign(_xAxi);
+            _currentSign = (int)Mathf.Sign(xAxi);
 
             if (_currentSign != _previousSign)
             {
@@ -59,28 +59,71 @@ public class PlayerModel : MonoBehaviour
                 transform.rotation = Quaternion.Euler(Vector3.up * (90 * _currentSign));
             }
             
-            _animator.SetFloat("MovementValue", Mathf.Abs(_xAxi));
+            _networkAnimator.Animator.SetFloat("MovementValue", Mathf.Abs(xAxi));
         }
         else if (_currentSign != 0)
         {
             _currentSign = 0;
-            _animator.SetFloat("MovementValue", 0);
+            _networkAnimator.Animator.SetFloat("MovementValue", 0);
         }
     }
     
     void Jump()
     {
-        _rgbd.AddForce(Vector3.up * _jumpForce, ForceMode.VelocityChange);
+        _networkRgbd.Rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.VelocityChange);
     }
-    
+
+    //Aca llegamos
     void Shoot()
     {
-        Instantiate(_bulletPrefab, _shootPosition.position, transform.rotation);
-        _shootParticle.Play();
+        if (Time.time - _lastFiringTime < 0.15f) return;
+
+        _lastFiringTime = Time.time;
+
+        Runner.Spawn(_bulletPrefab, _shootPosition.position, transform.rotation);
+
+        StartCoroutine(FiringCooldown());
+    }
+
+    IEnumerator FiringCooldown()
+    {
+        _isFiring = true;
+
+        yield return new WaitForSeconds(0.15f);
+
+        _isFiring = false;
+    }
+
+    static void OnFiringChanged(Changed<PlayerModel> changed)
+    {
+        var updatedFiring = changed.Behaviour._isFiring;
+        changed.LoadOld();
+        var oldFiring = changed.Behaviour._isFiring;
+
+        if (!oldFiring && updatedFiring)
+        {
+            changed.Behaviour._shootParticle.Play();
+        }
     }
 
     public void TakeDamage(float dmg)
     {
-        
+        RPC_TakeDamage(dmg);
+    }
+
+    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
+    void RPC_TakeDamage(float dmg)
+    {
+        _life -= dmg;
+
+        if (_life <= 0)
+        {
+            Dead();
+        }
+    }
+
+    void Dead()
+    {
+        Runner.Shutdown();
     }
 }

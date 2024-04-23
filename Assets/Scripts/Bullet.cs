@@ -1,23 +1,23 @@
+using Fusion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : NetworkBehaviour
 {
-    [SerializeField] private Rigidbody _rgbd;
+    [SerializeField] private NetworkRigidbody _networkRgbd;
     void Start()
     {
-        _rgbd.AddForce(transform.forward * 10f, ForceMode.VelocityChange);
+        _networkRgbd.Rigidbody.AddForce(transform.forward * 10f, ForceMode.VelocityChange);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out PlayerModel enemy))
-        {
-            enemy.TakeDamage(25f);
-        }
-        
-        Destroy(gameObject);
+        if (!Object || !Object.HasStateAuthority) return;
+
+        if (other.TryGetComponent(out PlayerModel enemy)) enemy.TakeDamage(25f);
+
+        Runner.Despawn(Object);
     }
 }
