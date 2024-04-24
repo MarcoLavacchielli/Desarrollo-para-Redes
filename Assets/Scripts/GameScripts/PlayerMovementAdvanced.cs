@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerMovementAdvanced : MonoBehaviour
 {
     [Header("Movement")]
-    private float moveSpeed;
+    [SerializeField] private float moveSpeed;
     public float walkSpeed;
     public float sprintSpeed;
     public float slideSpeed;
@@ -63,7 +63,8 @@ public class PlayerMovementAdvanced : MonoBehaviour
         crouching,
         sliding,
         wallrunning,
-        air
+        air,
+        idle
     }
 
     public bool sliding;
@@ -137,31 +138,36 @@ public class PlayerMovementAdvanced : MonoBehaviour
             state = MovementState.sliding;
 
             if (OnSlope() && rb.velocity.y < 0.1f)
-                desiredMoveSpeed = slideSpeed;
+                moveSpeed = slideSpeed;
 
             else
-                desiredMoveSpeed = sprintSpeed;
+                moveSpeed = slideSpeed;
         }
 
         // Mode - Crouching
         else if (Input.GetKey(crouchKey))
         {
             state = MovementState.crouching;
-            desiredMoveSpeed = crouchSpeed;
+            moveSpeed = crouchSpeed;
         }
 
         // Mode - Sprinting
         else if(grounded && Input.GetKey(sprintKey))
         {
             state = MovementState.sprinting;
-            desiredMoveSpeed = sprintSpeed;
+            moveSpeed = sprintSpeed;
         }
 
         // Mode - Walking
+        else if (grounded && Mathf.Approximately(horizontalInput, 0f) && Mathf.Approximately(verticalInput, 0f) && rb.velocity.magnitude < 0.1f)
+        {
+            state = MovementState.idle;
+            moveSpeed = 0f; // No movement speed when idle
+        }
         else if (grounded)
         {
             state = MovementState.walking;
-            desiredMoveSpeed = walkSpeed;
+            moveSpeed = walkSpeed;
         }
 
         else if (wallrunning)
@@ -178,7 +184,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
         }
 
         // check if desiredMoveSpeed has changed drastically
-        if(Mathf.Abs(desiredMoveSpeed - lastDesiredMoveSpeed) > 4f && moveSpeed != 0)
+        /*if(Mathf.Abs(desiredMoveSpeed - lastDesiredMoveSpeed) > 4f && moveSpeed != 0)
         {
             StopAllCoroutines();
             StartCoroutine(SmoothlyLerpMoveSpeed());
@@ -188,7 +194,7 @@ public class PlayerMovementAdvanced : MonoBehaviour
             moveSpeed = desiredMoveSpeed;
         }
 
-        lastDesiredMoveSpeed = desiredMoveSpeed;
+        lastDesiredMoveSpeed = desiredMoveSpeed;*/
     }
 
     private IEnumerator SmoothlyLerpMoveSpeed()
@@ -223,22 +229,26 @@ public class PlayerMovementAdvanced : MonoBehaviour
         // calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        // on slope
-        if (OnSlope() && !exitingSlope)
+        if (state == MovementState.idle)
+        {
+            // No movement when in idle state
+            rb.velocity = Vector3.zero;
+        }
+        else if (OnSlope() && !exitingSlope)
         {
             rb.AddForce(GetSlopeMoveDirection(moveDirection) * moveSpeed * 20f, ForceMode.Force);
 
             if (rb.velocity.y > 0)
                 rb.AddForce(Vector3.down * 80f, ForceMode.Force);
         }
-
-        // on ground
-        else if(grounded)
+        else if (grounded)
+        {
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-
-        // in air
-        else if(!grounded)
+        }
+        else if (!grounded)
+        {
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+        }
 
         // turn gravity off while on slope
         rb.useGravity = !OnSlope();
