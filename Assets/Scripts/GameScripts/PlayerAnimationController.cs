@@ -1,8 +1,9 @@
+using Fusion;
 using UnityEngine;
 
-public class PlayerAnimationController : MonoBehaviour
+public class PlayerAnimationController : NetworkBehaviour
 {
-    public Animator animator;
+    public NetworkMecanimAnimator networkAnimator;
 
     private PlayerMovementAdvanced movementController;
 
@@ -15,20 +16,20 @@ public class PlayerAnimationController : MonoBehaviour
     {
         PlayerMovementAdvanced.MovementState currentState = movementController.state;
 
-        animator.SetBool("slowRun", false);
-        animator.SetBool("fastRun", false);
-        animator.SetBool("crouchIdle", false);
+        networkAnimator.Animator.SetBool("slowRun", false);
+        networkAnimator.Animator.SetBool("fastRun", false);
+        networkAnimator.Animator.SetBool("crouchIdle", false);
 
         switch (currentState)
         {
             case PlayerMovementAdvanced.MovementState.walking:
-                animator.SetBool("slowRun", true);
+                networkAnimator.Animator.SetBool("slowRun", true);
                 break;
             case PlayerMovementAdvanced.MovementState.sprinting:
-                animator.SetBool("fastRun", true);
+                networkAnimator.Animator.SetBool("fastRun", true);
                 break;
             case PlayerMovementAdvanced.MovementState.crouching:
-                animator.SetBool("crouchIdle", true);
+                networkAnimator.Animator.SetBool("crouchIdle", true);
                 break;
             case PlayerMovementAdvanced.MovementState.sliding:
                 break;

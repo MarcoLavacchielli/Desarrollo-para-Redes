@@ -1652,6 +1652,7 @@ MonoBehaviour:
   NetworkedBehaviours:
   - {fileID: 5655180961428235230}
   - {fileID: 1395039534047241083}
+  - {fileID: 2245248863591679321}
   - {fileID: 3169353271171504230}
   SimulationBehaviours: []
 --- !u!114 &1395039534047241083
@@ -1679,7 +1680,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7185668de1da35247b38cee158ac17af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 3663005823305067216}
+  _interpolationDataSource: 0
+  networkAnimator: {fileID: 3169353271171504230}
 --- !u!1 &5956052642894233906
 GameObject:
   m_ObjectHideFlags: 0
