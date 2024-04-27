@@ -123,6 +123,64 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &422834765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5918013592519139619}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da7a8de1cbe939740a63b41e78be3826, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0
+  walkSpeed: 4
+  sprintSpeed: 6
+  slideSpeed: 5
+  wallrunSpeed: 5
+  speedIncreaseMultiplier: 1.5
+  slopeIncreaseMultiplier: 2.5
+  groundDrag: 7
+  jumpForce: 10
+  jumpCooldown: 1
+  airMultiplier: 0.5
+  crouchSpeed: 3.5
+  crouchYScale: 0.5
+  jumpKey: 32
+  sprintKey: 304
+  crouchKey: 99
+  playerHeight: 2
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  maxSlopeAngle: 40
+  orientation: {fileID: 776893072128659240}
+  playerObj: {fileID: 9019798302482493210}
+  maxSlideTime: 1
+  slideForce: 200
+  slideYScale: 0.5
+  slideKey: 306
+  whatIsWall:
+    serializedVersion: 2
+    m_Bits: 128
+  wallRunForce: 200
+  wallJumpUpForce: 5
+  wallJumpSideForce: 12
+  wallClimbSpeed: 3
+  maxWallRunTime: 1.5
+  jumpKeyWall: 32
+  upwardsRunKey: 304
+  downwardsRunKey: 306
+  wallCheckDistance: 0.7
+  minJumpHeight: 2
+  exitWallTime: 0.2
+  useGravity: 0
+  gravityCounterForce: 20
+  state: 0
+  sliding: 0
+  wallrunning: 0
 --- !u!1 &706902376
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,7 +200,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &706902377
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,6 +580,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1251902186713582844, guid: ddeb1b0e19829de4e9bd78af6eea0ddb, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1828865295097766924, guid: ddeb1b0e19829de4e9bd78af6eea0ddb, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2613177400976767683, guid: ddeb1b0e19829de4e9bd78af6eea0ddb, type: 3}
       propertyPath: Flags
       value: 2561
@@ -537,6 +603,10 @@ PrefabInstance:
     - target: {fileID: 5918013591676259579, guid: ddeb1b0e19829de4e9bd78af6eea0ddb, type: 3}
       propertyPath: m_Name
       value: PlayerContainer
+      objectReference: {fileID: 0}
+    - target: {fileID: 6241543556087238678, guid: ddeb1b0e19829de4e9bd78af6eea0ddb, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9019798301606052546, guid: ddeb1b0e19829de4e9bd78af6eea0ddb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -578,11 +648,32 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1251902186713582844, guid: ddeb1b0e19829de4e9bd78af6eea0ddb, type: 3}
+    - {fileID: 1828865295097766924, guid: ddeb1b0e19829de4e9bd78af6eea0ddb, type: 3}
+    - {fileID: 6241543556087238678, guid: ddeb1b0e19829de4e9bd78af6eea0ddb, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5918013591676259579, guid: ddeb1b0e19829de4e9bd78af6eea0ddb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 422834765}
   m_SourcePrefab: {fileID: 100100000, guid: ddeb1b0e19829de4e9bd78af6eea0ddb, type: 3}
+--- !u!4 &776893072128659240 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 776893073550844656, guid: ddeb1b0e19829de4e9bd78af6eea0ddb, type: 3}
+  m_PrefabInstance: {fileID: 1439002072}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5918013592519139619 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5918013591676259579, guid: ddeb1b0e19829de4e9bd78af6eea0ddb, type: 3}
+  m_PrefabInstance: {fileID: 1439002072}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &9019798302482493210 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9019798301606052546, guid: ddeb1b0e19829de4e9bd78af6eea0ddb, type: 3}
+  m_PrefabInstance: {fileID: 1439002072}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

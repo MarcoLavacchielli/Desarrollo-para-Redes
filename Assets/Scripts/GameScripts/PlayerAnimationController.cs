@@ -5,16 +5,19 @@ public class PlayerAnimationController : NetworkBehaviour
 {
     public NetworkMecanimAnimator networkAnimator;
 
-    private PlayerMovementAdvanced movementController;
+    //private PlayerMovementAdvanced movementController;
+    private PlayerAllInOne movementController;
 
     private void Start()
     {
-        movementController = GetComponent<PlayerMovementAdvanced>();
+        //movementController = GetComponent<PlayerMovementAdvanced>();
+        movementController = GetComponent<PlayerAllInOne>();
     }
 
     private void Update()
     {
-        PlayerMovementAdvanced.MovementState currentState = movementController.state;
+        //PlayerMovementAdvanced.MovementState currentState = movementController.state;
+        PlayerAllInOne.MovementState currentState = movementController.state;
 
         networkAnimator.Animator.SetBool("slowRun", false);
         networkAnimator.Animator.SetBool("fastRun", false);
@@ -22,7 +25,7 @@ public class PlayerAnimationController : NetworkBehaviour
 
         switch (currentState)
         {
-            case PlayerMovementAdvanced.MovementState.walking:
+            /*case PlayerMovementAdvanced.MovementState.walking:
                 networkAnimator.Animator.SetBool("slowRun", true);
                 break;
             case PlayerMovementAdvanced.MovementState.sprinting:
@@ -36,6 +39,23 @@ public class PlayerAnimationController : NetworkBehaviour
             case PlayerMovementAdvanced.MovementState.wallrunning:
                 break;
             case PlayerMovementAdvanced.MovementState.air:
+                break;
+            default:
+                break;*/
+            case PlayerAllInOne.MovementState.walking:
+                networkAnimator.Animator.SetBool("slowRun", true);
+                break;
+            case PlayerAllInOne.MovementState.sprinting:
+                networkAnimator.Animator.SetBool("fastRun", true);
+                break;
+            case PlayerAllInOne.MovementState.crouching:
+                networkAnimator.Animator.SetBool("crouchIdle", true);
+                break;
+            case PlayerAllInOne.MovementState.sliding:
+                break;
+            case PlayerAllInOne.MovementState.wallrunning:
+                break;
+            case PlayerAllInOne.MovementState.air:
                 break;
             default:
                 break;
