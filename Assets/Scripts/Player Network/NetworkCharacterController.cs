@@ -13,6 +13,7 @@ namespace SharedMode
         [SerializeField] private bool _isCrouchPressed;
         [SerializeField] private bool _isStand;
         [SerializeField] private bool _isRunPressed;
+        [SerializeField] private bool _isSlidePressed;
         //private bool _isFirePressed;
 
 
@@ -34,13 +35,17 @@ namespace SharedMode
             {
                 _isCrouchPressed = true;
             }
-            if (Input.GetKeyUp(KeyCode.C) || Input.GetKeyUp(KeyCode.LeftShift))
+            if (Input.GetKeyUp(KeyCode.C) || Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.LeftControl))
             {
                 _isStand = true;
             }
             if (Input.GetKeyDown(KeyCode.LeftShift))
             {
                 _isRunPressed = true;
+            }
+            if (Input.GetKeyDown(KeyCode.LeftControl))
+            {
+                _isSlidePressed = true;
             }
             /*else if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -64,6 +69,9 @@ namespace SharedMode
 
             _networkInputs.isRunPressed = _isRunPressed;
             _isRunPressed = false;
+
+            _networkInputs.isSlidePressed = _isSlidePressed;
+            _isSlidePressed = false;
 
             return _networkInputs;  
         }

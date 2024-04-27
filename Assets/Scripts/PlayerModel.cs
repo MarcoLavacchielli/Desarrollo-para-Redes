@@ -46,6 +46,13 @@ public class PlayerModel : NetworkBehaviour
     public float sprintVelocity;
     //
 
+    [Header("Deslizar")] // Deslizar
+    public float maxSlideTime;
+    public float slideSpeed;
+    private bool _isSliding = false;
+    private float _slideTimer = 0f;
+    //
+
 
     void Start()
     {
@@ -67,6 +74,17 @@ public class PlayerModel : NetworkBehaviour
             if (_inputs.isStand) Stand();
 
             if (_inputs.isRunPressed) Sprint();
+
+            if (_inputs.isSlidePressed && !_isSliding)
+            {
+                StartSliding();
+            }
+
+            if (_isSliding)
+            {
+                Slide();
+            }
+
 
             Move(_inputs.xMovement, _inputs.yMovement);
         }
@@ -124,6 +142,33 @@ public class PlayerModel : NetworkBehaviour
     void Sprint()
     {
         _speed = sprintVelocity;
+    }
+
+    void StartSliding()
+    {
+        _isSliding = true;
+        _slideTimer = 0f;
+        _speed = slideSpeed;
+        transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
+        _networkRgbd.Rigidbody.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+    }
+
+    void Slide()
+    {
+        _slideTimer += Time.fixedDeltaTime;
+
+        if (_slideTimer >= maxSlideTime)
+        {
+            EndSlide();
+        }
+    }
+
+    void EndSlide()
+    {
+        _isSliding = false;
+        _slideTimer = 0f;
+        _speed = startSpeed;
+        transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
     }
 
     //Aca llegamos

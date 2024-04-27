@@ -191,14 +191,17 @@ MonoBehaviour:
   _interpolationDataSource: 0
   _networkRgbd: {fileID: 5880646527516218323}
   _networkAnimator: {fileID: 3632441457623176175}
-  _life: 100
   _speed: 3
   _rotationSpeed: 1000
+  _life: 100
   _maxJumps: 1
   _jumpForce: 5
   crouchSpeed: 2
   crouchYScale: 0.5
   sprintVelocity: 6
+  maxSlideTime: 2
+  slideSpeed: 5
+  slideTimer: 2
 --- !u!114 &8758420942208762557
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,6 +231,7 @@ MonoBehaviour:
   _isCrouchPressed: 0
   _isStand: 0
   _isRunPressed: 0
+  _isSlidePressed: 0
 --- !u!1001 &5929992663363763230
 PrefabInstance:
   m_ObjectHideFlags: 0
