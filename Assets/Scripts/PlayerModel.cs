@@ -17,6 +17,8 @@ public class PlayerModel : NetworkBehaviour
     [SerializeField] private float _life;
     [SerializeField] private float _speed;
 
+    [SerializeField] private float _rotationSpeed = 10f;
+
     private int _currentSign, _previousSign;
 
     //[Networked(OnChanged = nameof(OnFiringChanged))]
@@ -58,7 +60,7 @@ public class PlayerModel : NetworkBehaviour
             _networkRgbd.Rigidbody.MovePosition(transform.position + movement * _speed * Time.fixedDeltaTime);
 
             Quaternion targetRotation = Quaternion.LookRotation(movement, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _rotationSpeed); // Ajuste de velocidad de rotación aquí
 
             _networkAnimator.Animator.SetFloat("MovementValue", movement.magnitude);
         }

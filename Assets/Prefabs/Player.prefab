@@ -193,6 +193,8 @@ MonoBehaviour:
   _networkAnimator: {fileID: 3632441457623176175}
   _life: 100
   _speed: 3
+  _rotationSpeed: 1000
+  _maxJumps: 1
   _jumpForce: 5
 --- !u!114 &8758420942208762557
 MonoBehaviour:
