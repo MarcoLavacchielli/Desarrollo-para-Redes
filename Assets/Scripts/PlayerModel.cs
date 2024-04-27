@@ -7,37 +7,43 @@ using UnityEngine;
 public class PlayerModel : NetworkBehaviour
 {
     [SerializeField] private NetworkRigidbody _networkRgbd;
-   // [SerializeField] private NetworkTransform _networkTransform;
     [SerializeField] private NetworkMecanimAnimator _networkAnimator;
-    
+   // [SerializeField] private NetworkTransform _networkTransform;
+
     //[SerializeField] private Bullet _bulletPrefab;
     //[SerializeField] private ParticleSystem _shootParticle;
     //[SerializeField] private Transform _shootPosition;
+    //bool _isFiring { get; set; }
 
-    [SerializeField] private float _life;
-    [SerializeField] private float _speed;
-    private float startSpeed;
-
-    [SerializeField] private float _rotationSpeed = 10f;
+    //private float _lastFiringTime;
 
     //private int _currentSign, _previousSign;
 
     //[Networked(OnChanged = nameof(OnFiringChanged))]
-    bool _isFiring { get; set; }
-
-    private float _lastFiringTime;
 
     private NetworkInputData _inputs;
 
-    //salto
+    [Header("Movimiento")]
+    [SerializeField] private float _speed;
+    private float startSpeed;
+    [SerializeField] private float _rotationSpeed = 10f;
+
+    [Header("Vida")]
+    [SerializeField] private float _life;
+
+    [Header("Salto")] //salto
     [SerializeField] private int _maxJumps = 1;
     private int _remainingJumps;
     [SerializeField] private float _jumpForce;
     //
 
-    //
+    [Header("Agacharse")] // crouch
     public float crouchSpeed;
     public float crouchYScale;
+    //
+
+    [Header("Correr")] // sprint
+    public float sprintVelocity;
     //
 
 
@@ -59,6 +65,8 @@ public class PlayerModel : NetworkBehaviour
             if (_inputs.isCrouchPressed) Crouch();
 
             if (_inputs.isStand) Stand();
+
+            if (_inputs.isRunPressed) Sprint();
 
             Move(_inputs.xMovement, _inputs.yMovement);
         }
@@ -111,6 +119,11 @@ public class PlayerModel : NetworkBehaviour
     {
         transform.localScale = new Vector3(transform.localScale.x, 1, transform.localScale.z);
         _speed = startSpeed;
+    }
+
+    void Sprint()
+    {
+        _speed = sprintVelocity;
     }
 
     //Aca llegamos
