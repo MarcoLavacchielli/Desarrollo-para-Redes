@@ -10,71 +10,75 @@ public class PlayerModel : NetworkBehaviour
    // [SerializeField] private NetworkTransform _networkTransform;
     [SerializeField] private NetworkMecanimAnimator _networkAnimator;
     
-    [SerializeField] private Bullet _bulletPrefab;
-    [SerializeField] private ParticleSystem _shootParticle;
-    [SerializeField] private Transform _shootPosition;
+    //[SerializeField] private Bullet _bulletPrefab;
+    //[SerializeField] private ParticleSystem _shootParticle;
+    //[SerializeField] private Transform _shootPosition;
 
     [SerializeField] private float _life;
     [SerializeField] private float _speed;
-    [SerializeField] private float _jumpForce;
 
     private int _currentSign, _previousSign;
 
-    [Networked(OnChanged = nameof(OnFiringChanged))]
+    //[Networked(OnChanged = nameof(OnFiringChanged))]
     bool _isFiring { get; set; }
 
     private float _lastFiringTime;
 
-    private NetworkInputData _inputs;    
+    private NetworkInputData _inputs;
 
-    
+    //salto
+    [SerializeField] private int _maxJumps = 1;
+    private int _remainingJumps;
+    [SerializeField] private float _jumpForce;
+    //
+
+
     void Start()
     {
         transform.forward = Vector3.right;
+        _remainingJumps = _maxJumps;
     }
 
     public override void FixedUpdateNetwork()
     {
         if(GetInput(out _inputs))
         {
-            if (_inputs.isFirePressed) Shoot();
+            //if (_inputs.isFirePressed) Shoot();
             if (_inputs.isJumpPressed) Jump();
 
-            Move(_inputs.xMovement);
+            Move(_inputs.xMovement, _inputs.yMovement);
         }
     }
 
-    void Move(float xAxi)
+    void Move(float xAxi, float yAxi)
     {
-        if (xAxi != 0)
+        Vector3 movement = new Vector3(xAxi, 0, yAxi).normalized;
+        if (movement != Vector3.zero)
         {
-            _networkRgbd.Rigidbody.MovePosition(transform.position + Vector3.right * (xAxi * _speed * Time.fixedDeltaTime));
+            _networkRgbd.Rigidbody.MovePosition(transform.position + movement * _speed * Time.fixedDeltaTime);
 
-            _currentSign = (int)Mathf.Sign(xAxi);
+            Quaternion targetRotation = Quaternion.LookRotation(movement, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
 
-            if (_currentSign != _previousSign)
-            {
-                _previousSign = _currentSign;
-
-                transform.rotation = Quaternion.Euler(Vector3.up * (90 * _currentSign));
-            }
-            
-            _networkAnimator.Animator.SetFloat("MovementValue", Mathf.Abs(xAxi));
+            _networkAnimator.Animator.SetFloat("MovementValue", movement.magnitude);
         }
-        else if (_currentSign != 0)
+        else
         {
-            _currentSign = 0;
             _networkAnimator.Animator.SetFloat("MovementValue", 0);
         }
     }
     
     void Jump()
     {
-        _networkRgbd.Rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.VelocityChange);
+        if (_remainingJumps > 0)
+        {
+            _networkRgbd.Rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.VelocityChange);
+            _remainingJumps--;
+        }
     }
 
     //Aca llegamos
-    void Shoot()
+    /*void Shoot()
     {
         if (Time.time - _lastFiringTime < 0.15f) return;
 
@@ -104,7 +108,7 @@ public class PlayerModel : NetworkBehaviour
         {
             changed.Behaviour._shootParticle.Play();
         }
-    }
+    }*/
 
     public void TakeDamage(float dmg)
     {
@@ -125,5 +129,13 @@ public class PlayerModel : NetworkBehaviour
     void Dead()
     {
         Runner.Shutdown();
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Floor"))
+        {
+            _remainingJumps = _maxJumps; // Restaurar los saltos disponibles al tocar el suelo
+        }
     }
 }

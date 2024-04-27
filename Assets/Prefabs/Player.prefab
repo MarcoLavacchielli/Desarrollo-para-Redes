@@ -174,7 +174,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 120
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &5929992664058835299
 MonoBehaviour:
@@ -191,9 +191,6 @@ MonoBehaviour:
   _interpolationDataSource: 0
   _networkRgbd: {fileID: 5880646527516218323}
   _networkAnimator: {fileID: 3632441457623176175}
-  _bulletPrefab: {fileID: 6218521310458098583, guid: d7a7774a8447e0347b562f8f48203159, type: 3}
-  _shootParticle: {fileID: 2292768793347994421}
-  _shootPosition: {fileID: 5929992663691944120}
   _life: 100
   _speed: 3
   _jumpForce: 5
@@ -283,11 +280,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: daea41746bf2ea24f9a47bd56518d100, type: 3}
---- !u!198 &2292768793347994421 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5591814843891158827, guid: daea41746bf2ea24f9a47bd56518d100, type: 3}
-  m_PrefabInstance: {fileID: 5929992663363763230}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8534979715203793138 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2610335420132310252, guid: daea41746bf2ea24f9a47bd56518d100, type: 3}

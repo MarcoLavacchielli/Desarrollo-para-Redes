@@ -10,7 +10,7 @@ namespace SharedMode
         NetworkInputData _networkInputs;
 
         private bool _isJumpPressed;
-        private bool _isFirePressed;
+        //private bool _isFirePressed;
 
 
         void Start()
@@ -21,15 +21,16 @@ namespace SharedMode
         void Update()
         {
             _networkInputs.xMovement = Input.GetAxis("Horizontal");
+            _networkInputs.yMovement = Input.GetAxis("Vertical");
 
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 _isJumpPressed = true;
             }
-            else if (Input.GetKeyDown(KeyCode.Space))
+            /*else if (Input.GetKeyDown(KeyCode.Space))
             {
                 _isFirePressed = true;
-            }
+            }*/
         }
 
         public NetworkInputData GetLocalInputs()
@@ -37,8 +38,8 @@ namespace SharedMode
             _networkInputs.isJumpPressed = _isJumpPressed;
             _isJumpPressed = false;
 
-            _networkInputs.isFirePressed = _isFirePressed;
-            _isFirePressed = false;
+            //_networkInputs.isFirePressed = _isFirePressed;
+            //_isFirePressed = false;
 
             return _networkInputs;  
         }
