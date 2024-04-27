@@ -16,10 +16,11 @@ public class PlayerModel : NetworkBehaviour
 
     [SerializeField] private float _life;
     [SerializeField] private float _speed;
+    private float startSpeed;
 
     [SerializeField] private float _rotationSpeed = 10f;
 
-    private int _currentSign, _previousSign;
+    //private int _currentSign, _previousSign;
 
     //[Networked(OnChanged = nameof(OnFiringChanged))]
     bool _isFiring { get; set; }
@@ -34,11 +35,18 @@ public class PlayerModel : NetworkBehaviour
     [SerializeField] private float _jumpForce;
     //
 
+    //
+    public float crouchSpeed;
+    public float crouchYScale;
+    //
+
 
     void Start()
     {
         transform.forward = Vector3.right;
         _remainingJumps = _maxJumps;
+
+        startSpeed = _speed;
     }
 
     public override void FixedUpdateNetwork()
@@ -48,8 +56,17 @@ public class PlayerModel : NetworkBehaviour
             //if (_inputs.isFirePressed) Shoot();
             if (_inputs.isJumpPressed) Jump();
 
+            if (_inputs.isCrouchPressed) Crouch();
+
+            if (_inputs.isStand) Stand();
+
             Move(_inputs.xMovement, _inputs.yMovement);
         }
+
+        /*if (!_inputs.isCrouchPressed && transform.localScale.y != 1)
+        {
+            transform.localScale = new Vector3(transform.localScale.x, 1, transform.localScale.z);
+        }*/
     }
 
     void Move(float xAxi, float yAxi)
@@ -77,6 +94,23 @@ public class PlayerModel : NetworkBehaviour
             _networkRgbd.Rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.VelocityChange);
             _remainingJumps--;
         }
+    }
+
+    void Crouch()
+    {
+        if (_inputs.isCrouchPressed)
+        {
+            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
+            _networkRgbd.Rigidbody.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+
+            _speed = crouchSpeed;
+        }
+    }
+
+    void Stand()
+    {
+        transform.localScale = new Vector3(transform.localScale.x, 1, transform.localScale.z);
+        _speed = startSpeed;
     }
 
     //Aca llegamos

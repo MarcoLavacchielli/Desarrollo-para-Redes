@@ -9,7 +9,9 @@ namespace SharedMode
     {
         NetworkInputData _networkInputs;
 
-        private bool _isJumpPressed;
+        [SerializeField] private bool _isJumpPressed;
+        [SerializeField] private bool _isCrouchPressed;
+        [SerializeField] private bool _isStand;
         //private bool _isFirePressed;
 
 
@@ -27,6 +29,14 @@ namespace SharedMode
             {
                 _isJumpPressed = true;
             }
+            if (Input.GetKeyDown(KeyCode.C))
+            {
+                _isCrouchPressed = true;
+            }
+            if (Input.GetKeyUp(KeyCode.C))
+            {
+                _isStand = true;
+            }
             /*else if (Input.GetKeyDown(KeyCode.Space))
             {
                 _isFirePressed = true;
@@ -40,6 +50,12 @@ namespace SharedMode
 
             //_networkInputs.isFirePressed = _isFirePressed;
             //_isFirePressed = false;
+
+            _networkInputs.isCrouchPressed = _isCrouchPressed;
+            _isCrouchPressed = false;
+
+            _networkInputs.isStand = _isStand;
+            _isStand = false;
 
             return _networkInputs;  
         }

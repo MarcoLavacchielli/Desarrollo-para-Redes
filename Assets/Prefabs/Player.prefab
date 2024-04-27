@@ -196,6 +196,8 @@ MonoBehaviour:
   _rotationSpeed: 1000
   _maxJumps: 1
   _jumpForce: 5
+  crouchSpeed: 2
+  crouchYScale: 0.5
 --- !u!114 &8758420942208762557
 MonoBehaviour:
   m_ObjectHideFlags: 0
