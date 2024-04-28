@@ -16,7 +16,6 @@ namespace SharedMode
         [SerializeField] private bool _isSlidePressed;
         //private bool _isFirePressed;
 
-
         void Start()
         {
             _networkInputs = new NetworkInputData();

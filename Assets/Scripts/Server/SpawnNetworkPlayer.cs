@@ -16,6 +16,7 @@ public class SpawnNetworkPlayer : MonoBehaviour, INetworkRunnerCallbacks
         if(runner.Topology == SimulationConfig.Topologies.Shared)
         {
             var localPlayer = runner.Spawn(_playerPrefab, Vector3.zero, Quaternion.identity, runner.LocalPlayer);
+            //localPlayer.GetComponentInChildren<Camera>().enabled = true;
             _charController = localPlayer.GetComponent<SharedMode.NetworkCharacterController>();
         }
     }

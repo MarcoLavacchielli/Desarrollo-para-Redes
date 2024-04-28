@@ -62,6 +62,9 @@ public class PlayerModel : NetworkBehaviour
 
         startSpeed = _speed;
     }
+
+    public Camera camaraActivada;
+
     public override void FixedUpdateNetwork()
     {
         _networkAnimator.Animator.SetBool("slowRun", false);
@@ -112,6 +115,9 @@ public class PlayerModel : NetworkBehaviour
             }
 
             Move(_inputs.xMovement, _inputs.yMovement);
+
+
+            camaraActivada.gameObject.SetActive(true);
         }
 
         /*if (!_inputs.isCrouchPressed && transform.localScale.y != 1)
