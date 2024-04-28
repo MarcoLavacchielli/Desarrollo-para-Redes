@@ -8,7 +8,7 @@ public class PlayerModel : NetworkBehaviour
 {
     [SerializeField] private NetworkRigidbody _networkRgbd;
     [SerializeField] private NetworkMecanimAnimator _networkAnimator;
-   // [SerializeField] private NetworkTransform _networkTransform;
+    // [SerializeField] private NetworkTransform _networkTransform;
 
     //[SerializeField] private Bullet _bulletPrefab;
     //[SerializeField] private ParticleSystem _shootParticle;
@@ -52,8 +52,6 @@ public class PlayerModel : NetworkBehaviour
     private bool _isSliding = false;
     private float _slideTimer = 0f;
     //
-
-
     void Start()
     {
         transform.forward = Vector3.right;
@@ -61,19 +59,40 @@ public class PlayerModel : NetworkBehaviour
 
         startSpeed = _speed;
     }
-
     public override void FixedUpdateNetwork()
     {
-        if(GetInput(out _inputs))
+        _networkAnimator.Animator.SetBool("slowRun", false);
+
+        if (GetInput(out _inputs))
         {
             //if (_inputs.isFirePressed) Shoot();
-            if (_inputs.isJumpPressed) Jump();
+            if (_inputs.isJumpPressed)
+            {
+                Jump();
+            }
 
-            if (_inputs.isCrouchPressed) Crouch();
+            if (_inputs.isCrouchPressed)
+            {
+                Crouch();
+            }
+            else
+            {
+                _networkAnimator.Animator.SetBool("crouchIdle", false);
+            }
 
-            if (_inputs.isStand) Stand();
+            if (_inputs.isStand)
+            {
+                Stand();
+            }
 
-            if (_inputs.isRunPressed) Sprint();
+            if (_inputs.isRunPressed)
+            {
+                Sprint();
+            }
+            else
+            {
+                _networkAnimator.Animator.SetBool("fastRun", false);
+            }
 
             if (_inputs.isSlidePressed && !_isSliding)
             {
@@ -85,8 +104,8 @@ public class PlayerModel : NetworkBehaviour
                 Slide();
             }
 
-
             Move(_inputs.xMovement, _inputs.yMovement);
+            //_networkAnimator.Animator.SetBool("slowRun", true);
         }
 
         /*if (!_inputs.isCrouchPressed && transform.localScale.y != 1)
@@ -104,12 +123,6 @@ public class PlayerModel : NetworkBehaviour
 
             Quaternion targetRotation = Quaternion.LookRotation(movement, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _rotationSpeed); // Ajuste de velocidad de rotación aquí
-
-            _networkAnimator.Animator.SetFloat("MovementValue", movement.magnitude);
-        }
-        else
-        {
-            _networkAnimator.Animator.SetFloat("MovementValue", 0);
         }
     }
     
@@ -131,6 +144,7 @@ public class PlayerModel : NetworkBehaviour
 
             _speed = crouchSpeed;
         }
+        _networkAnimator.Animator.SetBool("crouchIdle", true);
     }
 
     void Stand()
@@ -149,6 +163,7 @@ public class PlayerModel : NetworkBehaviour
         {
             _speed = sprintVelocity;
         }
+        _networkAnimator.Animator.SetBool("fastRun", true);
     }
 
     void StartSliding()

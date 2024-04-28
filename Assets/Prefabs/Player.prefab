@@ -2197,6 +2197,7 @@ MonoBehaviour:
   _interpolationDataSource: 0
   _networkRgbd: {fileID: 3327859922586656339}
   _networkAnimator: {fileID: 8538775658353370971}
+  networkAnimator: {fileID: 8538775658353370971}
   _speed: 3
   _rotationSpeed: 100
   _life: 100
