@@ -68,6 +68,16 @@ public class PlayerModel : NetworkBehaviour
         _networkAnimator.Animator.SetBool("crouchIdle", false);
         _networkAnimator.Animator.SetBool("fastRun", false);
 
+        if (_speed == crouchSpeed)
+        {
+            _networkAnimator.Animator.SetBool("crouchIdle", true);
+        }
+
+        if (_speed == sprintVelocity)
+        {
+            _networkAnimator.Animator.SetBool("fastRun", true);
+        }
+
         if (GetInput(out _inputs))
         {
             //if (_inputs.isFirePressed) Shoot();
@@ -141,7 +151,6 @@ public class PlayerModel : NetworkBehaviour
 
             _speed = crouchSpeed;
         }
-        _networkAnimator.Animator.SetBool("crouchIdle", true);
     }
 
     void Stand()
@@ -160,7 +169,6 @@ public class PlayerModel : NetworkBehaviour
         {
             _speed = sprintVelocity;
         }
-        _networkAnimator.Animator.SetBool("fastRun", true);
     }
 
     void StartSliding()
