@@ -4,14 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Fusion;
-using UnityEngine.SceneManagement;
 
 public class GameManager : NetworkBehaviour
 {
     [SerializeField] TextMeshProUGUI _timerText, _authoriryText;
 
     [Networked] private float Timer { get; set; }
-    private bool gameStarted = false;
 
     public override void Spawned()
     {
@@ -20,23 +18,9 @@ public class GameManager : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        if (!gameStarted && Object.HasStateAuthority)
-        {
-            CheckPlayers();
-            Timer += Runner.DeltaTime;
-        }
+        if (Object.HasStateAuthority) Timer += Runner.DeltaTime;
 
         _timerText.text = $"Timer: {Timer}";
         _authoriryText.text = $"Authority: {Object.HasStateAuthority}";
-    }
-
-    void CheckPlayers()
-    {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        if (players.Length >= 2)
-        {
-            gameStarted = true;
-            SceneManager.LoadScene("JuegoMain");
-        }
     }
 }
