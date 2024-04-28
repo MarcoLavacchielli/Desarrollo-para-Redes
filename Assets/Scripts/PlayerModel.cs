@@ -59,7 +59,6 @@ public class PlayerModel : NetworkBehaviour
     {
         transform.forward = Vector3.right;
         _remainingJumps = _maxJumps;
-
         startSpeed = _speed;
     }
 
@@ -135,9 +134,18 @@ public class PlayerModel : NetworkBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(movement, Vector3.up);
             _childModel.rotation = Quaternion.Slerp(_childModel.rotation, targetRotation, Time.deltaTime * _rotationSpeed); // Aplicar rotación al modelo hijo
             _networkAnimator.Animator.SetBool("slowRun", true);
+
+            // Envía la rotación al servidor
+            RpcUpdateRotation(_childModel.rotation);
         }
     }
-    
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    void RpcUpdateRotation(Quaternion newRotation)
+    {
+        _childModel.rotation = newRotation;
+    }
+
     void Jump()
     {
         if (_remainingJumps > 0)
