@@ -79,6 +79,7 @@ public class PlayerModel : NetworkBehaviour
         _networkAnimator.Animator.SetBool("slowRun", false);
         _networkAnimator.Animator.SetBool("crouchIdle", false);
         _networkAnimator.Animator.SetBool("fastRun", false);
+        _networkAnimator.Animator.SetBool("isAttack", false);
 
         if (_speed == crouchSpeed)
         {
@@ -88,6 +89,11 @@ public class PlayerModel : NetworkBehaviour
         if (_speed == sprintVelocity)
         {
             _networkAnimator.Animator.SetBool("fastRun", true);
+        }
+
+        if (isAttacking == true)
+        {
+            _networkAnimator.Animator.SetBool("isAttack", true);
         }
 
         if (GetInput(out _inputs))
