@@ -2239,6 +2239,12 @@ MonoBehaviour:
   sprintVelocity: 6
   maxSlideTime: 2
   slideSpeed: 5
+  attackRadius: 2.6
+  objLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  danio: 1
+  cooldown: 0.5
   camaraActivada: {fileID: 4524540036610992907}
 --- !u!114 &3561441395413792219
 MonoBehaviour:
@@ -2270,6 +2276,7 @@ MonoBehaviour:
   _isStand: 0
   _isRunPressed: 0
   _isSlidePressed: 0
+  _isAttackPressed: 0
 --- !u!1 &9150386668210769168
 GameObject:
   m_ObjectHideFlags: 0

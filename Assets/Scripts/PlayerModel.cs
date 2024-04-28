@@ -55,6 +55,16 @@ public class PlayerModel : NetworkBehaviour
     private bool _isSliding = false;
     private float _slideTimer = 0f;
     //
+
+    [Header("Ataque")] // Deslizar
+    [SerializeField] private float attackRadius = 1.5f;
+    [SerializeField] private LayerMask objLayer;
+    public int danio;
+    private bool isAttacking = false;
+    [SerializeField] private float cooldown = 0.5f;
+    private float nextAttackTime = 0f;
+    //
+
     void Start()
     {
         transform.forward = Vector3.right;
@@ -111,6 +121,11 @@ public class PlayerModel : NetworkBehaviour
             if (_isSliding)
             {
                 Slide();
+            }
+
+            if (_inputs.isAttackPressed && Time.time >= nextAttackTime && !isAttacking)
+            {
+                Attack();
             }
 
             Move(_inputs.xMovement, _inputs.yMovement);
@@ -209,6 +224,42 @@ public class PlayerModel : NetworkBehaviour
         _slideTimer = 0f;
         _speed = startSpeed;
         transform.localScale = new Vector3(transform.localScale.x, 1f, transform.localScale.z);
+    }
+
+    void Attack()
+    {
+        isAttacking = true;
+        StartCoroutine(PerformAttack());
+        nextAttackTime = Time.time + cooldown;
+    }
+
+    IEnumerator PerformAttack()
+    {
+        Debug.Log("Attacking");
+        yield return new WaitForSeconds(0.5f);
+        AttackDestroyer();
+        yield return new WaitForSeconds(0.5f);
+        isAttacking = false;
+    }
+
+    void AttackDestroyer()
+    {
+
+        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, attackRadius, objLayer);
+
+        foreach (Collider hitObject in hitEnemies)
+        {
+            Fusion.NetworkObject networkObject = hitObject.GetComponent<Fusion.NetworkObject>();
+
+            if (networkObject != null)
+            {
+                Runner.Despawn(networkObject);
+            }
+            else
+            {
+                Debug.LogWarning("El objeto " + hitObject.name + " no tiene un componente NetworkObject adjunto.");
+            }
+        }
     }
 
     //Aca llegamos

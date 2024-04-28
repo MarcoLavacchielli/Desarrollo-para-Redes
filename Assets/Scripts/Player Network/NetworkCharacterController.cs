@@ -14,6 +14,7 @@ namespace SharedMode
         [SerializeField] private bool _isStand;
         [SerializeField] private bool _isRunPressed;
         [SerializeField] private bool _isSlidePressed;
+        [SerializeField] private bool _isAttackPressed;
         //private bool _isFirePressed;
 
         void Start()
@@ -46,6 +47,10 @@ namespace SharedMode
             {
                 _isSlidePressed = true;
             }
+            if (Input.GetMouseButtonDown(0))
+            {
+                _isAttackPressed = true;
+            }
             /*else if (Input.GetKeyDown(KeyCode.Space))
             {
                 _isFirePressed = true;
@@ -71,6 +76,9 @@ namespace SharedMode
 
             _networkInputs.isSlidePressed = _isSlidePressed;
             _isSlidePressed = false;
+
+            _networkInputs.isAttackPressed = _isAttackPressed;
+            _isAttackPressed = false;
 
             return _networkInputs;  
         }
