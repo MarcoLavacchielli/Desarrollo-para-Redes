@@ -8,6 +8,9 @@ public class PlayerModel : NetworkBehaviour
 {
     [SerializeField] private NetworkRigidbody _networkRgbd;
     [SerializeField] private NetworkMecanimAnimator _networkAnimator;
+
+    [SerializeField] private Transform _childModel;
+
     // [SerializeField] private NetworkTransform _networkTransform;
 
     //[SerializeField] private Bullet _bulletPrefab;
@@ -39,7 +42,7 @@ public class PlayerModel : NetworkBehaviour
 
     [Header("Agacharse")] // crouch
     public float crouchSpeed;
-    public float crouchYScale;
+    public float crouchYScale = 0.5f;
     //
 
     [Header("Correr")] // sprint
@@ -115,7 +118,7 @@ public class PlayerModel : NetworkBehaviour
             _networkRgbd.Rigidbody.MovePosition(transform.position + movement * _speed * Time.fixedDeltaTime);
 
             Quaternion targetRotation = Quaternion.LookRotation(movement, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _rotationSpeed); // Ajuste de velocidad de rotación aquí
+            _childModel.rotation = Quaternion.Slerp(_childModel.rotation, targetRotation, Time.deltaTime * _rotationSpeed); // Aplicar rotación al modelo hijo
             _networkAnimator.Animator.SetBool("slowRun", true);
         }
     }
@@ -133,7 +136,7 @@ public class PlayerModel : NetworkBehaviour
     {
         if (_inputs.isCrouchPressed)
         {
-            transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
+            transform.localScale = new Vector3(transform.localScale.x, 0.5f, transform.localScale.z);
             _networkRgbd.Rigidbody.AddForce(Vector3.down * 5f, ForceMode.Impulse);
 
             _speed = crouchSpeed;
