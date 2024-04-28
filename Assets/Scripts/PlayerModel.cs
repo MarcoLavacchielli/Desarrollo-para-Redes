@@ -62,6 +62,8 @@ public class PlayerModel : NetworkBehaviour
     public override void FixedUpdateNetwork()
     {
         _networkAnimator.Animator.SetBool("slowRun", false);
+        _networkAnimator.Animator.SetBool("crouchIdle", false);
+        _networkAnimator.Animator.SetBool("fastRun", false);
 
         if (GetInput(out _inputs))
         {
@@ -75,10 +77,6 @@ public class PlayerModel : NetworkBehaviour
             {
                 Crouch();
             }
-            else
-            {
-                _networkAnimator.Animator.SetBool("crouchIdle", false);
-            }
 
             if (_inputs.isStand)
             {
@@ -88,10 +86,6 @@ public class PlayerModel : NetworkBehaviour
             if (_inputs.isRunPressed)
             {
                 Sprint();
-            }
-            else
-            {
-                _networkAnimator.Animator.SetBool("fastRun", false);
             }
 
             if (_inputs.isSlidePressed && !_isSliding)
@@ -105,7 +99,6 @@ public class PlayerModel : NetworkBehaviour
             }
 
             Move(_inputs.xMovement, _inputs.yMovement);
-            //_networkAnimator.Animator.SetBool("slowRun", true);
         }
 
         /*if (!_inputs.isCrouchPressed && transform.localScale.y != 1)
@@ -123,6 +116,7 @@ public class PlayerModel : NetworkBehaviour
 
             Quaternion targetRotation = Quaternion.LookRotation(movement, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _rotationSpeed); // Ajuste de velocidad de rotación aquí
+            _networkAnimator.Animator.SetBool("slowRun", true);
         }
     }
     
