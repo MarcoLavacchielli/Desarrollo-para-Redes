@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : NetworkBehaviour
 {
-    [SerializeField] TextMeshProUGUI _timerText, _authoriryText;
+    //[SerializeField] TextMeshProUGUI _timerText, _authoriryText;
 
     [Networked] private float Timer { get; set; }
     private bool gameStarted = false;
@@ -26,8 +26,8 @@ public class GameManager : NetworkBehaviour
             Timer += Runner.DeltaTime;
         }
 
-        _timerText.text = $"Timer: {Timer}";
-        _authoriryText.text = $"Authority: {Object.HasStateAuthority}";
+        //_timerText.text = $"Timer: {Timer}";
+        //_authoriryText.text = $"Authority: {Object.HasStateAuthority}";
     }
 
     void CheckPlayers()
