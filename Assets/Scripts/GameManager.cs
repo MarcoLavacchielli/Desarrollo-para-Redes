@@ -36,7 +36,12 @@ public class GameManager : NetworkBehaviour
         if (players.Length >= 2)
         {
             gameStarted = true;
-            //SceneManager.LoadScene("JuegoMain");
+
+            GameObject[] lobbyWalls = GameObject.FindGameObjectsWithTag("LobbyWall");
+            foreach (GameObject wall in lobbyWalls)
+            {
+                Destroy(wall);
+            }
         }
     }
 }
