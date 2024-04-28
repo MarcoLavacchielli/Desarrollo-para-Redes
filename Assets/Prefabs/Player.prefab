@@ -2239,7 +2239,7 @@ MonoBehaviour:
   sprintVelocity: 6
   maxSlideTime: 2
   slideSpeed: 5
-  attackRadius: 2.6
+  attackRadius: 1
   objLayer:
     serializedVersion: 2
     m_Bits: 256

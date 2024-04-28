@@ -228,17 +228,48 @@ public class PlayerModel : NetworkBehaviour
 
     void Attack()
     {
-        isAttacking = true;
-        StartCoroutine(PerformAttack());
-        nextAttackTime = Time.time + cooldown;
+        if (!isAttacking && Time.time >= nextAttackTime)
+        {
+            isAttacking = true;
+            nextAttackTime = Time.time + cooldown;
+
+            // Llamar al RPC de ataque en el servidor
+            RpcPerformAttack();
+        }
     }
 
-    IEnumerator PerformAttack()
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    void RpcPerformAttack()
+    {
+        StartCoroutine(ServerPerformAttack());
+    }
+
+    IEnumerator ServerPerformAttack()
+    {
+        Debug.Log("Attacking");
+
+        // Retraso antes de realizar el ataque (opcional)
+        yield return new WaitForSeconds(0.5f);
+
+        // Lógica de ataque
+        AttackDestroyer();
+
+        // Notificar a todos los clientes que el ataque ha terminado
+        RpcAttackFinished();
+    }
+
+    /*IEnumerator PerformAttack()
     {
         Debug.Log("Attacking");
         yield return new WaitForSeconds(0.5f);
         AttackDestroyer();
         yield return new WaitForSeconds(0.5f);
+        isAttacking = false;
+    }*/
+
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    void RpcAttackFinished()
+    {
         isAttacking = false;
     }
 
@@ -322,5 +353,11 @@ public class PlayerModel : NetworkBehaviour
         {
             _remainingJumps = _maxJumps; // Restaurar los saltos disponibles al tocar el suelo
         }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRadius);
     }
 }
