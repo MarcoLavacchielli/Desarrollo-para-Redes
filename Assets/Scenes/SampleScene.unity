@@ -729,6 +729,8 @@ MonoBehaviour:
   _interpolationDataSource: 0
   victoryScreen: {fileID: 1790240324}
   defeatScreen: {fileID: 564179594}
+  victoryDeclared:
+    _value: 0
 --- !u!114 &248869688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1593,7 +1595,7 @@ GameObject:
   - component: {fileID: 718971467}
   - component: {fileID: 718971466}
   - component: {fileID: 718971465}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2066,7 +2068,7 @@ GameObject:
   - component: {fileID: 861156997}
   - component: {fileID: 861156996}
   - component: {fileID: 861156995}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (14)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4310,7 +4312,7 @@ GameObject:
   - component: {fileID: 1952440447}
   - component: {fileID: 1952440446}
   - component: {fileID: 1952440445}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cube (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

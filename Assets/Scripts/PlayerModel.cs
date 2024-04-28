@@ -70,6 +70,11 @@ public class PlayerModel : NetworkBehaviour
         transform.forward = Vector3.right;
         _remainingJumps = _maxJumps;
         startSpeed = _speed;
+
+        //
+        Rigidbody rb = _networkRgbd.Rigidbody;
+        rb.interpolation = RigidbodyInterpolation.Extrapolate;
+        //
     }
 
     public Camera camaraActivada;
