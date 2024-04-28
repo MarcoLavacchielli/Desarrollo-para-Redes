@@ -40,7 +40,7 @@ public class GameManager : NetworkBehaviour
             GameObject[] lobbyWalls = GameObject.FindGameObjectsWithTag("LobbyWall");
             foreach (GameObject wall in lobbyWalls)
             {
-                Destroy(wall);
+                //Runner.Despawn(wall);
             }
         }
     }
