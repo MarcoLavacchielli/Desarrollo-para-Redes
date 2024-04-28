@@ -141,7 +141,14 @@ public class PlayerModel : NetworkBehaviour
 
     void Sprint()
     {
-        _speed = sprintVelocity;
+        if(transform.localScale == new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z))
+        {
+            _speed = crouchSpeed;
+        }
+        else
+        {
+            _speed = sprintVelocity;
+        }
     }
 
     void StartSliding()
