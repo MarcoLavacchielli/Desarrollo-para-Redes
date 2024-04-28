@@ -116,7 +116,6 @@ public class PlayerModel : NetworkBehaviour
 
             Move(_inputs.xMovement, _inputs.yMovement);
 
-
             camaraActivada.gameObject.SetActive(true);
         }
 
