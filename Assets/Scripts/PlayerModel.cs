@@ -386,11 +386,14 @@ public class PlayerModel : NetworkBehaviour
         Gizmos.DrawWireSphere(transform.position, attackRadius);
     }
 
+    public GameObject victoryScreen;
+    public GameObject defeatScreen;
+
     public void Gano()
     {
-        //victoryScreen.SetActive(true);
-        //defeatScreen = null;
-        SceneManager.LoadScene("Victory");
+        victoryScreen.SetActive(true);
+        defeatScreen = null;
+        //SceneManager.LoadScene("Victory");
     }
 
     public void Perdio()
