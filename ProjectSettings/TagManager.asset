@@ -6,6 +6,7 @@ TagManager:
   tags:
   - LobbyWall
   - DestructableObj
+  - Meta
   layers:
   - Default
   - TransparentFX

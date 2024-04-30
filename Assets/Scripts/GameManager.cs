@@ -45,6 +45,7 @@ public class GameManager : NetworkBehaviour
         }
     }*/
 
+    /*
     [SerializeField]
     public List<PlayerModel> playerScreensList = new List<PlayerModel>();
     //NetworkLinkedList<PlayerModel> playerScreensList = new NetworkLinkedList<PlayerModel>();
@@ -73,6 +74,6 @@ public class GameManager : NetworkBehaviour
                 AddPlayerModel(playerModel);
             }
         }
-    }
+    }*/
 
 }

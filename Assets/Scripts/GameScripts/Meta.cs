@@ -52,8 +52,10 @@ public class Meta : NetworkBehaviour
          }
      }*/
 
+
+
     // Método para obtener la referencia al GameManager
-    private void Awake()
+    /*private void Awake()
     {
         gameManager = FindObjectOfType<GameManager>();
     }
@@ -101,6 +103,6 @@ public class Meta : NetworkBehaviour
             gameManager.playerScreensList[0].Perdio();
             termino = true;
         }
-    }
+    }*/
 
 }
