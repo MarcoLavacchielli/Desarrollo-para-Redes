@@ -2421,6 +2421,7 @@ MonoBehaviour:
   - {fileID: 3327859922586656339}
   - {fileID: 213324260953414915}
   - {fileID: 3561441395413792219}
+  - {fileID: 7883556717576614911}
   - {fileID: 1803288338782724954}
   SimulationBehaviours: []
 --- !u!136 &2536701737615267277
@@ -2517,6 +2518,7 @@ MonoBehaviour:
   _networkRgbd: {fileID: 3327859922586656339}
   _networkAnimator: {fileID: 1803288338782724954}
   _childModel: {fileID: 3350232563738621255}
+  camaraActivada: {fileID: 4524540036610992907}
   _speed: 3
   _rotationSpeed: 100
   _life: 100
@@ -2533,7 +2535,8 @@ MonoBehaviour:
     m_Bits: 256
   danio: 1
   cooldown: 0.5
-  camaraActivada: {fileID: 4524540036610992907}
+  victoryScreen: {fileID: 5104208088839053870}
+  defeatScreen: {fileID: 5047669056333230293}
 --- !u!114 &3561441395413792219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2577,6 +2580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e3774ee1aa4e6d43a7a01de0725449b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
   victoryScreen: {fileID: 5104208088839053870}
   defeatScreen: {fileID: 5047669056333230293}
 --- !u!1 &8875493975306941875

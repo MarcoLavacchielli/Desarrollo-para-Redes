@@ -6,19 +6,19 @@ using UnityEngine;
 public class Meta : NetworkBehaviour
 {
     [SerializeField]
-    private List<PlayerEndScreens> playerScreensList = new List<PlayerEndScreens>();
+    private List<PlayerModel> playerScreensList = new List<PlayerModel>();
     [SerializeField]
-    private PlayerEndScreens firstPlayerModel;
+    private PlayerModel firstPlayerModel;
 
     [SerializeField] private NetworkBool UnoGano;
     [SerializeField] private NetworkBool DosGano;
 
-    [SerializeField] GameObject victoryScreen, defeatScreen;
+    //[SerializeField] GameObject victoryScreen, defeatScreen;
 
     [SerializeField] private NetworkBool termino = false;
 
 
-    public void AddPlayerModel(PlayerEndScreens playerModel)
+    public void AddPlayerModel(PlayerModel playerModel)
     {
         playerScreensList.Add(playerModel);
     }
@@ -39,8 +39,8 @@ public class Meta : NetworkBehaviour
 
     void listManagement()
     {
-        PlayerEndScreens[] playerModelsInScene = FindObjectsOfType<PlayerEndScreens>();
-        foreach (PlayerEndScreens playerModel in playerModelsInScene)
+        PlayerModel[] playerModelsInScene = FindObjectsOfType<PlayerModel>();
+        foreach (PlayerModel playerModel in playerModelsInScene)
         {
             // Chequear si el playerModel ya está en la lista antes de agregarlo
             if (!playerScreensList.Contains(playerModel))
@@ -52,15 +52,15 @@ public class Meta : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        firstPlayerModel = playerScreensList[0];
+        //firstPlayerModel = playerScreensList[0];
 
-        if (other.GetComponent<PlayerEndScreens>() == firstPlayerModel)
+        if (other.GetComponent<PlayerModel>() == playerScreensList[0])
         {
             UnoGano = true;
             DosGano = false;
             RpcDeclareVictory();
         }
-        else if (other.GetComponent<PlayerEndScreens>() == playerScreensList[1])
+        else if (other.GetComponent<PlayerModel>() == playerScreensList[1])
         {
             UnoGano = false;
             DosGano = true;
@@ -73,18 +73,14 @@ public class Meta : NetworkBehaviour
     {
         if (UnoGano)
         {
-            //playerScreensList[0].defeatScreen.SetActive(true);
-            //playerScreensList[1].victoryScreen.SetActive(true);
-            playerScreensList[1].gano();
-            playerScreensList[0].perdio();
+            playerScreensList[0].Gano();
+            playerScreensList[1].Perdio();
             termino = true;
         }
         else if (DosGano)
         {
-            //playerScreensList[1].defeatScreen.SetActive(true);
-            //playerScreensList[0].victoryScreen.SetActive(true);
-            playerScreensList[0].gano();
-            playerScreensList[1].perdio();
+            playerScreensList[1].Gano();
+            playerScreensList[0].Perdio();
             termino = true;
         }
     }

@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
-public class PlayerEndScreens : MonoBehaviour
+public class PlayerEndScreens : NetworkBehaviour
 {
 
 
@@ -15,12 +16,14 @@ public class PlayerEndScreens : MonoBehaviour
     {
         victoryScreen.SetActive(true);
         Destroy(defeatScreen);
+        //Runner.Despawn(defeatScreen);
     }
 
     public void perdio()
     {
         defeatScreen.SetActive(true);
         Destroy(victoryScreen);
+        //Runner.Despawn(victoryScreen);
     }
 
 

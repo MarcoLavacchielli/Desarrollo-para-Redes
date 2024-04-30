@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : NetworkBehaviour
 {
-    //[SerializeField] TextMeshProUGUI _timerText, _authoriryText;
+    /*//[SerializeField] TextMeshProUGUI _timerText, _authoriryText;
 
     [Networked] private float Timer { get; set; }
     private bool gameStarted = false;
@@ -43,5 +43,36 @@ public class GameManager : NetworkBehaviour
                 //Runner.Despawn(wall);
             }
         }
+    }*/
+
+    [SerializeField]
+    private List<PlayerModel> playerScreensList = new List<PlayerModel>();
+    //NetworkLinkedList<PlayerModel> playerScreensList = new NetworkLinkedList<PlayerModel>();
+
+    public void AddPlayerModel(PlayerModel playerModel)
+    {
+        if (Object.HasStateAuthority)
+        {
+            playerScreensList.Add(playerModel);
+        }
     }
+
+    private void Update()
+    {
+         listManagement();
+    }
+
+    void listManagement()
+    {
+        PlayerModel[] playerModelsInScene = FindObjectsOfType<PlayerModel>();
+        foreach (PlayerModel playerModel in playerModelsInScene)
+        {
+            // Chequear si el playerModel ya está en la lista antes de agregarlo
+            if (!playerScreensList.Contains(playerModel))
+            {
+                AddPlayerModel(playerModel);
+            }
+        }
+    }
+
 }

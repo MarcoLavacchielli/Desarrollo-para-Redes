@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerModel : NetworkBehaviour
 {
@@ -10,6 +11,8 @@ public class PlayerModel : NetworkBehaviour
     [SerializeField] private NetworkMecanimAnimator _networkAnimator;
 
     [SerializeField] private Transform _childModel;
+
+    public Camera camaraActivada;
 
     // [SerializeField] private NetworkTransform _networkTransform;
 
@@ -65,6 +68,11 @@ public class PlayerModel : NetworkBehaviour
     private float nextAttackTime = 0f;
     //
 
+    /*[Header("Paneles de victoria y derrota")]//
+    public GameObject victoryScreen;
+    public GameObject defeatScreen;
+    *///
+
     void Start()
     {
         transform.forward = Vector3.right;
@@ -76,8 +84,6 @@ public class PlayerModel : NetworkBehaviour
         rb.interpolation = RigidbodyInterpolation.Extrapolate;
         //
     }
-
-    public Camera camaraActivada;
 
     public override void FixedUpdateNetwork()
     {
@@ -371,4 +377,19 @@ public class PlayerModel : NetworkBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRadius);
     }
+
+    public void Gano()
+    {
+        //victoryScreen.SetActive(true);
+        //defeatScreen = null;
+        SceneManager.LoadScene("Victory");
+    }
+
+    public void Perdio()
+    {
+        //defeatScreen.SetActive(true);
+        //victoryScreen = null;
+        SceneManager.LoadScene("Defeat");
+    }
+
 }
