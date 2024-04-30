@@ -372,11 +372,14 @@ public class PlayerModel : NetworkBehaviour
         }
     }
 
+    [SerializeField] NetworkBool gano = false;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Meta")
         {
             Gano();
+            gano = true;
         }
     }
 
@@ -394,13 +397,21 @@ public class PlayerModel : NetworkBehaviour
         victoryScreen.SetActive(true);
         defeatScreen = null;
         //SceneManager.LoadScene("Victory");
+        gano = true;
     }
 
     public void Perdio()
     {
-        //defeatScreen.SetActive(true);
-        //victoryScreen = null;
-        SceneManager.LoadScene("Defeat");
+        if (gano == false)
+        {
+            defeatScreen.SetActive(true);
+            victoryScreen = null;
+            //SceneManager.LoadScene("Defeat");
+        }
+        if (gano == true)
+        {
+            Gano();
+        }
     }
 
 }
