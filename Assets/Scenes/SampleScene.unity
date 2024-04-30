@@ -708,7 +708,7 @@ Transform:
   m_GameObject: {fileID: 248869682}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.5, z: 87}
+  m_LocalPosition: {x: 0, y: 1.5, z: 7.53}
   m_LocalScale: {x: 20, y: 5, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -727,10 +727,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
+  playerModelsList: []
+  firstPlayerModel: {fileID: 0}
+  UnoGano:
+    _value: 0
+  DosGano:
+    _value: 0
   victoryScreen: {fileID: 1790240324}
   defeatScreen: {fileID: 564179594}
-  victoryDeclared:
-    _value: 0
 --- !u!114 &248869688
 MonoBehaviour:
   m_ObjectHideFlags: 0

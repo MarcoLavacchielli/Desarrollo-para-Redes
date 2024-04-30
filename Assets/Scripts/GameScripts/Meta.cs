@@ -5,39 +5,88 @@ using UnityEngine;
 
 public class Meta : NetworkBehaviour
 {
+    [SerializeField]
+    private List<PlayerEndScreens> playerScreensList = new List<PlayerEndScreens>();
+    [SerializeField]
+    private PlayerEndScreens firstPlayerModel;
+
+    [SerializeField] private NetworkBool UnoGano;
+    [SerializeField] private NetworkBool DosGano;
+
     [SerializeField] GameObject victoryScreen, defeatScreen;
-    [SerializeField] NetworkBool victoryDeclared = false;
+
+    [SerializeField] private NetworkBool termino = false;
+
+
+    public void AddPlayerModel(PlayerEndScreens playerModel)
+    {
+        playerScreensList.Add(playerModel);
+    }
+
+    private void Update()
+    {
+
+        if (termino == false)
+        {
+            listManagement();
+        }
+        if (termino == true)
+        {
+            playerScreensList = null;
+        }
+
+    }
+
+    void listManagement()
+    {
+        PlayerEndScreens[] playerModelsInScene = FindObjectsOfType<PlayerEndScreens>();
+        foreach (PlayerEndScreens playerModel in playerModelsInScene)
+        {
+            // Chequear si el playerModel ya está en la lista antes de agregarlo
+            if (!playerScreensList.Contains(playerModel))
+            {
+                AddPlayerModel(playerModel);
+            }
+        }
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        // Verificar si la victoria ya ha sido declarada o si este objeto no tiene autoridad de estado
-        if (victoryDeclared || !Object.HasStateAuthority)
-            return;
+        firstPlayerModel = playerScreensList[0];
 
-        if (other.CompareTag("Player"))
+        if (other.GetComponent<PlayerEndScreens>() == firstPlayerModel)
         {
-            // Deshabilitar el script del jugador para evitar que continúe interactuando
-            other.GetComponent<PlayerModel>().enabled = false;
-
-            // Marcar la victoria como declarada y notificar a todos los clientes
-            victoryDeclared = true;
+            UnoGano = true;
+            DosGano = false;
+            RpcDeclareVictory();
+        }
+        else if (other.GetComponent<PlayerEndScreens>() == playerScreensList[1])
+        {
+            UnoGano = false;
+            DosGano = true;
             RpcDeclareVictory();
         }
     }
 
-    // RPC para notificar a todos los clientes que la victoria ha sido declarada
     [Rpc(RpcSources.All, RpcTargets.All)]
     void RpcDeclareVictory()
     {
-        if (Object.HasStateAuthority)
+        if (UnoGano)
         {
-            // Activar el panel de victoria en todos los clientes
-            victoryScreen.SetActive(true);
+            //playerScreensList[0].defeatScreen.SetActive(true);
+            //playerScreensList[1].victoryScreen.SetActive(true);
+            playerScreensList[1].gano();
+            playerScreensList[0].perdio();
+            termino = true;
         }
-        else
+        else if (DosGano)
         {
-            // Si este cliente no es el propietario de la autoridad de estado, activar el panel de derrota solo en este cliente
-            defeatScreen.SetActive(true);
+            //playerScreensList[1].defeatScreen.SetActive(true);
+            //playerScreensList[0].victoryScreen.SetActive(true);
+            playerScreensList[0].gano();
+            playerScreensList[1].perdio();
+            termino = true;
         }
     }
+
 }
