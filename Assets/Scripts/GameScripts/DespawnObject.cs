@@ -8,20 +8,31 @@ using UnityEngine.SceneManagement;
 
 public class DespawnObject : NetworkBehaviour
 {
-
     public NetworkObject wallObj;
+    private int playersInside = 0;
 
-    public override void FixedUpdateNetwork()
+    private void OnTriggerEnter(Collider other)
     {
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        if (players.Length >= 2)
+        if (other.CompareTag("Player"))
         {
+            playersInside++;
 
-            GameObject[] lobbyWalls = GameObject.FindGameObjectsWithTag("LobbyWall");
-            foreach (GameObject wall in lobbyWalls)
+            if (playersInside >= 2)
             {
-                Runner.Despawn(wallObj);
+                GameObject[] lobbyWalls = GameObject.FindGameObjectsWithTag("LobbyWall");
+                foreach (GameObject wall in lobbyWalls)
+                {
+                    Runner.Despawn(wallObj);
+                }
             }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playersInside--;
         }
     }
 }
