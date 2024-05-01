@@ -2371,7 +2371,6 @@ GameObject:
   - component: {fileID: 213324260953414915}
   - component: {fileID: 3561441395413792219}
   - component: {fileID: 2843026873898482532}
-  - component: {fileID: 7883556717576614911}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2421,7 +2420,6 @@ MonoBehaviour:
   - {fileID: 3327859922586656339}
   - {fileID: 213324260953414915}
   - {fileID: 3561441395413792219}
-  - {fileID: 7883556717576614911}
   - {fileID: 1803288338782724954}
   SimulationBehaviours: []
 --- !u!136 &2536701737615267277
@@ -2535,6 +2533,8 @@ MonoBehaviour:
     m_Bits: 256
   danio: 1
   cooldown: 0.5
+  gano:
+    _value: 0
   victoryScreen: {fileID: 5104208088839053870}
   defeatScreen: {fileID: 5047669056333230293}
 --- !u!114 &3561441395413792219
@@ -2568,21 +2568,6 @@ MonoBehaviour:
   _isRunPressed: 0
   _isSlidePressed: 0
   _isAttackPressed: 0
---- !u!114 &7883556717576614911
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8846535900076963735}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e3774ee1aa4e6d43a7a01de0725449b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
-  victoryScreen: {fileID: 5104208088839053870}
-  defeatScreen: {fileID: 5047669056333230293}
 --- !u!1 &8875493975306941875
 GameObject:
   m_ObjectHideFlags: 0
