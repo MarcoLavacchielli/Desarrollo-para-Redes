@@ -14,28 +14,12 @@ public class PlayerModel : NetworkBehaviour
 
     public Camera camaraActivada;
 
-    // [SerializeField] private NetworkTransform _networkTransform;
-
-    //[SerializeField] private Bullet _bulletPrefab;
-    //[SerializeField] private ParticleSystem _shootParticle;
-    //[SerializeField] private Transform _shootPosition;
-    //bool _isFiring { get; set; }
-
-    //private float _lastFiringTime;
-
-    //private int _currentSign, _previousSign;
-
-    //[Networked(OnChanged = nameof(OnFiringChanged))]
-
     private NetworkInputData _inputs;
 
     [Header("Movimiento")]
     [SerializeField] private float _speed;
     private float startSpeed;
     [SerializeField] private float _rotationSpeed = 10f;
-
-    [Header("Vida")]
-    [SerializeField] private float _life;
 
     [Header("Salto")] //salto
     [SerializeField] private int _maxJumps = 1;
@@ -299,28 +283,6 @@ public class PlayerModel : NetworkBehaviour
                 Debug.LogWarning("El objeto " + hitObject.name + " no tiene un componente NetworkObject adjunto.");
             }
         }
-    }
-
-    
-    public void TakeDamage(float dmg)
-    {
-        RPC_TakeDamage(dmg);
-    }
-
-    [Rpc(RpcSources.All, RpcTargets.StateAuthority)]
-    void RPC_TakeDamage(float dmg)
-    {
-        _life -= dmg;
-
-        if (_life <= 0)
-        {
-            Dead();
-        }
-    }
-
-    void Dead()
-    {
-        Runner.Shutdown();
     }
 
     void OnCollisionEnter(Collision collision)

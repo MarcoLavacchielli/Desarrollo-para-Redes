@@ -2370,7 +2370,7 @@ GameObject:
   - component: {fileID: 3707126418426304094}
   - component: {fileID: 213324260953414915}
   - component: {fileID: 3561441395413792219}
-  - component: {fileID: 2843026873898482532}
+  - component: {fileID: 3446003383088741875}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -2509,7 +2509,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8846535900076963735}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd5e0f5ee5c4815448ee368f059854a1, type: 3}
+  m_Script: {fileID: 11500000, guid: 8ca152c841903204e9d96e1c31bfa7d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
@@ -2519,7 +2519,6 @@ MonoBehaviour:
   camaraActivada: {fileID: 4524540036610992907}
   _speed: 3
   _rotationSpeed: 100
-  _life: 100
   _maxJumps: 1
   _jumpForce: 5
   crouchSpeed: 2
@@ -2546,11 +2545,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8846535900076963735}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 320a7738a965f59488da623023ef7f90, type: 3}
+  m_Script: {fileID: 11500000, guid: 4dc64a61898e8b2419be5c4cbaba0c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
---- !u!114 &2843026873898482532
+--- !u!114 &3446003383088741875
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2559,7 +2558,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8846535900076963735}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78a7973499474c940a5c76a0c86e5e41, type: 3}
+  m_Script: {fileID: 11500000, guid: 075950f7347e3d04aac043d511e45f1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _isJumpPressed: 0
