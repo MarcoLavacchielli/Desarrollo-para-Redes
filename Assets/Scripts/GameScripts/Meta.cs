@@ -42,7 +42,6 @@ public class Meta : NetworkBehaviour
         PlayerModel[] playerModelsInScene = FindObjectsOfType<PlayerModel>();
         foreach (PlayerModel playerModel in playerModelsInScene)
         {
-            // Chequear si el playerModel ya está en la lista antes de agregarlo
             if (!playerScreensList.Contains(playerModel))
             {
                 AddPlayerModel(playerModel);

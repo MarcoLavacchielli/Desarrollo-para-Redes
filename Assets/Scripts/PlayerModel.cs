@@ -109,7 +109,6 @@ public class PlayerModel : NetworkBehaviour
 
         if (GetInput(out _inputs))
         {
-            //if (_inputs.isFirePressed) Shoot();
             if (_inputs.isJumpPressed)
             {
                 Jump();
@@ -275,14 +274,6 @@ public class PlayerModel : NetworkBehaviour
         RpcAttackFinished();
     }
 
-    /*IEnumerator PerformAttack()
-    {
-        Debug.Log("Attacking");
-        yield return new WaitForSeconds(0.5f);
-        AttackDestroyer();
-        yield return new WaitForSeconds(0.5f);
-        isAttacking = false;
-    }*/
 
     [Rpc(RpcSources.All, RpcTargets.All)]
     void RpcAttackFinished()
@@ -310,39 +301,7 @@ public class PlayerModel : NetworkBehaviour
         }
     }
 
-    //Aca llegamos
-    /*void Shoot()
-    {
-        if (Time.time - _lastFiringTime < 0.15f) return;
-
-        _lastFiringTime = Time.time;
-
-        Runner.Spawn(_bulletPrefab, _shootPosition.position, transform.rotation);
-
-        StartCoroutine(FiringCooldown());
-    }
-
-    IEnumerator FiringCooldown()
-    {
-        _isFiring = true;
-
-        yield return new WaitForSeconds(0.15f);
-
-        _isFiring = false;
-    }
-
-    static void OnFiringChanged(Changed<PlayerModel> changed)
-    {
-        var updatedFiring = changed.Behaviour._isFiring;
-        changed.LoadOld();
-        var oldFiring = changed.Behaviour._isFiring;
-
-        if (!oldFiring && updatedFiring)
-        {
-            changed.Behaviour._shootParticle.Play();
-        }
-    }*/
-
+    
     public void TakeDamage(float dmg)
     {
         RPC_TakeDamage(dmg);
@@ -368,7 +327,7 @@ public class PlayerModel : NetworkBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Floor"))
         {
-            _remainingJumps = _maxJumps; // Restaurar los saltos disponibles al tocar el suelo
+            _remainingJumps = _maxJumps; 
         }
     }
 

@@ -13,5 +13,4 @@ public struct NetworkInputData : INetworkInput
     public NetworkBool isRunPressed;
     public NetworkBool isSlidePressed;
     public NetworkBool isAttackPressed;
-    //public NetworkBool isFirePressed;
 }

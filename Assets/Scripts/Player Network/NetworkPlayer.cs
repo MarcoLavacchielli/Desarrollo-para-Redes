@@ -7,7 +7,7 @@ public class NetworkPlayer : NetworkBehaviour
 {
     public static NetworkPlayer Local { get; private set; }
 
-    public override void Spawned() //Awake del network runner
+    public override void Spawned()
     {
         if (Object.HasInputAuthority) Local = this;
     }
